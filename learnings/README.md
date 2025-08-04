@@ -25,6 +25,15 @@ fastapi_mysql_project/
 
 Run these commands in your terminal:
 
+# Create virtual environment
+
+    bash
+
+            python -m venv venv
+            source venv/bin/activate # Linux/Mac
+
+     venv\Scripts\activate # Windows
+
 ```bash
 # Create project folder
 mkdir fastapi_mysql_project
@@ -59,6 +68,12 @@ Then install them:
 
 ```bash
 pip install -r requirements.txt
+```
+
+view list of installing depedency
+
+```bash
+pip list
 ```
 
 ---
