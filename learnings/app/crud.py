@@ -8,7 +8,26 @@ def create_task(db: Session, task: schemas.TaskCreate):
     db.refresh(db_task)
     return db_task
 
-def get_tasks(db: Session):
-    return db.query(models.Task).all()
+def get_tasks(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Task).offset(skip).limit(limit).all()
 
-# Add more CRUD functions (get_task, update_task, delete_task)
+def get_task(db: Session, task_id: int):
+    return db.query(models.Task).filter(models.Task.id == task_id).first()
+
+def update_task(db: Session, task_id: int, task: schemas.TaskCreate):
+    db_task = get_task(db, task_id=task_id)
+    if db_task is None:
+        return None
+    for field, value in task.dict().items():
+        setattr(db_task, field, value)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+def delete_task(db: Session, task_id: int):
+    db_task = get_task(db, task_id=task_id)
+    if db_task is None:
+        return None
+    db.delete(db_task)
+    db.commit()
+    return db_task

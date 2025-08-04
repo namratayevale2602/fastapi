@@ -78,6 +78,98 @@ pip list
 
 ---
 
+Here's a breakdown of each dependency in your FastAPI project and why it's used:
+
+### 1. **`fastapi`**
+
+**Purpose**: The main web framework for building your API  
+**Why it's needed**:
+
+- Provides tools to create RESTful APIs quickly
+- Automatic API documentation (Swagger UI & ReDoc)
+- Data validation using Pydantic models
+- Dependency injection system
+- ASGI support for high performance
+- Handles HTTP requests and responses
+
+### 2. **`uvicorn`**
+
+**Purpose**: ASGI server to run your FastAPI application  
+**Why it's needed**:
+
+- Serves your FastAPI application in production
+- Supports async/await functionality
+- Provides hot reload during development (`--reload` flag)
+- Lightweight and fast implementation of ASGI specification
+
+### 3. **`python-jose[cryptography]`**
+
+**Purpose**: JWT (JSON Web Token) implementation  
+**Why it's needed**:
+
+- Creates and verifies JWT tokens for authentication
+- `[cryptography]` adds support for cryptographic operations
+- Used in your `auth.py` for:
+  - `create_access_token()` - Generating tokens
+  - `decode_token()` - Verifying tokens
+- Implements industry-standard JWT (RFC 7519)
+
+### 4. **`passlib[bcrypt]`**
+
+**Purpose**: Password hashing library  
+**Why it's needed**:
+
+- Securely hashes passwords before storing in database
+- `[bcrypt]` provides the bcrypt hashing algorithm (industry standard)
+- Used in `auth.py` for:
+  - `get_password_hash()` - Hashing passwords during registration
+  - `verify_password()` - Checking passwords during login
+- Protects against rainbow table attacks
+
+### 5. **`pymysql`**
+
+**Purpose**: MySQL database connector  
+**Why it's needed**:
+
+- Enables Python to communicate with MySQL/MariaDB
+- Used by SQLAlchemy as the database driver
+- Provides the `mysql+pymysql://` connection string in `database.py`
+- Handles low-level database protocol communication
+
+### 6. **`sqlalchemy`**
+
+**Purpose**: ORM (Object-Relational Mapper) for databases  
+**Why it's needed**:
+
+- Allows defining database models as Python classes (`models.py`)
+- Manages database sessions and connections
+- Provides:
+  - `declarative_base()` for model definitions
+  - `SessionLocal` for database sessions
+  - Query building interface
+- Abstracts away raw SQL queries
+
+### 7. **`python-dotenv`**
+
+**Purpose**: Environment variable management  
+**Why it's needed**:
+
+- Loads variables from `.env` file into application
+- Keeps sensitive data (database credentials, secrets) out of code
+- Used in `database.py` and `auth.py` to access:
+  - Database connection strings
+  - JWT secret keys
+  - Algorithm configurations
+
+### How They Work Together:
+
+1. **FastAPI** handles HTTP requests and routes them to your functions
+2. **SQLAlchemy** + **PyMySQL** talk to your MySQL database
+3. **Passlib** secures user passwords
+4. **python-jose** manages authentication tokens
+5. **Uvicorn** serves the entire application
+6. **python-dotenv** keeps configurations secure
+
 ### **3. Configure MySQL Database**
 
 #### **a) Update `.env`**
